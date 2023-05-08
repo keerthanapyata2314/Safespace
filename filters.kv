@@ -1,0 +1,105 @@
+#: import MDDropDownItem kivymd.uix.dropdownitem.MDDropDownItem
+#: import MDTextField kivymd.uix.textfield.MDTextField
+#: import MDLabel kivymd.uix.label.MDLabel
+#: import MDSlider kivymd.uix.slider.MDSlider
+#: import dp kivy.metrics.dp
+#: import MDList kivymd.uix.list.MDList
+
+<FilterDialogContent@MDBoxLayout>:
+    orientation: "vertical"
+    size_hint_y: None
+    height: self.minimum_height
+    spacing: dp(10)
+    padding: dp(10)
+
+    MDLabel:
+        text: "Filters"
+        font_style: "H5"
+        halign: "center"
+        size_hint_y: None
+        height: self.texture_size[1]
+
+    MDTextField:
+        hint_text: "Device Name"
+        id: device_name_input
+        helper_text: "Filter by Device Name"
+        helper_text_mode: "on_focus"
+        icon_right: "bluetooth"
+        icon_right_color: app.theme_cls.primary_color
+        pos_hint: {"center_x": .5}
+        size_hint_x: None
+        width: "200dp"
+
+    MDLabel:
+        text: "Device Type"
+        font_style: "Body1"
+        size_hint_y: None
+        height: self.texture_size[1]
+
+    MDDropDownItem:
+        id: device_type_button
+        text: "All"
+        pos_hint: {"center_x": .5}
+        size_hint_x: None
+        width: "200dp"
+        on_release:
+            device_type_dialog.open()
+
+    
+    MDLabel:
+        text: "Device Manufacturer"
+        font_style: "Body1"
+        size_hint_y: None
+        height: self.texture_size[1]
+
+    MDDropDownItem:
+        id: device_manufacturer_button
+        text: "All"
+        pos_hint: {"center_x": .5}
+        size_hint_x: None
+        width: "200dp"
+        on_release:
+            device_manufacturer_dialog.open()
+
+   
+    MDLabel:
+        text: "RSSI"
+        font_style: "Body1"
+        size_hint_y: None
+        height: self.texture_size[1]
+        valign: 'middle'
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(48)
+        pos_hint: {"center_x": .5}
+
+        MDSlider:
+            id: rssi_slider
+            min: -100
+            max: 0
+            value: -100
+            size_hint_x: 0.9
+
+        MDLabel:
+            text: str(int(rssi_slider.value))
+            font_style: 'Body1'
+            size_hint_x: 0.1
+
+    MDLabel:
+        text: "Detection Time"
+        font_style: "Body1"
+        size_hint_y: None
+        height: self.texture_size[1]
+
+    MDDropDownItem:
+        id: detection_time_button
+        text: "All"
+        pos_hint: {"center_x": .5}
+        size_hint_x: None
+        width: "200dp"
+        on_release:
+            detection_time_dialog.open()
+
+    

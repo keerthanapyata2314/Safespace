@@ -1,0 +1,52 @@
+#: kivy 2.1.0
+#: import MDApp kivymd.app.MDApp
+#: import MDRaisedButton kivymd.uix.button.MDRaisedButton
+#: import MDTopAppBar kivymd.uix.toolbar.MDTopAppBar
+#: import MDSpinner kivymd.uix.spinner.MDSpinner
+#: import SafeSpaceLayout safespace_layout.SafeSpaceLayout
+#: import MDFlatButton kivymd.uix.button.MDFlatButton
+#: import MDRoundFlatButton kivymd.uix.button.MDRoundFlatButton
+#: include filters.kv
+#: include navigation_drawer.kv
+
+SafeSpaceLayout:
+    id: safe_space_layout
+    orientation: "vertical"
+    spacing: 10
+    
+    MDTopAppBar:
+        title: "Safe Space"
+        md_bg_color: app.theme_cls.primary_color
+        left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
+        elevation: 10
+        right_action_items: [["settings", lambda x: app.show_filter_dialog()]]
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: "10dp"
+
+        MDLabel:
+            text: "Status: Stopped"
+            id: status_label
+            halign: "center"
+            theme_text_color: "Secondary"
+
+        MDRaisedButton:
+            text: "Start/Stop Scanning"
+            on_release: root.start_stop_scanning()
+            pos_hint: {"center_x": .5}
+            size_hint_x: None
+
+        MDLabel:
+            id: error_label
+            size_hint_y: None
+            height: self.texture_size[1] + dp(8)
+            text: ''
+            theme_text_color: "Error"
+            halign: "center"
+
+    MDNavigationLayout:
+        id: nav_layout
+
+        CustomNavigationDrawer:
+            id: nav_drawer

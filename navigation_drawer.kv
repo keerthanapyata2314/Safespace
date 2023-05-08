@@ -1,0 +1,47 @@
+#: import OneLineIconListItem kivymd.uix.list.OneLineIconListItem
+#: import IconLeftWidget kivymd.uix.list.IconLeftWidget
+#: import MDNavigationDrawer kivymd.uix.navigationdrawer.MDNavigationDrawer
+
+<CustomNavigationDrawer@MDNavigationDrawer>:
+    id: nav_drawer
+    orientation: "vertical"
+    padding: "8dp"
+    spacing: "8dp"
+    anchor: "left"
+    width_mult: 0.6
+    md_bg_color: app.theme_cls.bg_normal
+
+    OneLineIconListItem:
+        text: "Home"
+        on_release: nav_drawer.set_state("close")
+        IconLeftWidget:
+            icon: "home"
+
+    OneLineIconListItem:
+        text: "Settings"
+        on_release:
+            nav_drawer.set_state("close")
+            app.show_filter_dialog()
+        IconLeftWidget:
+            icon: "settings"
+
+    OneLineIconListItem:
+        text: "About"
+        on_release: nav_drawer.set_state("close")
+        IconLeftWidget:
+            icon: "information"
+
+    OneLineIconListItem:
+        text: "Help"
+        on_release: nav_drawer.set_state("close")
+        IconLeftWidget:
+            icon: "help-circle"
+
+    OneLineIconListItem:
+        text: "Exit"
+        on_release:
+            nav_drawer.set_state("close")
+            app.stop()
+        IconLeftWidget:
+            icon: "exit-to-app"
+
