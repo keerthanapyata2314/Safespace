@@ -1,23 +1,25 @@
 import asyncio
 import math
 import requests
-from bleak import BleakScanner, BleakError
+from bleak import BleakScanner
 from datetime import datetime
 
 def calculate_distance(rssi, tx_power):
     if rssi == 0:
         return -1.0
+
     ratio = rssi * 1.0 / tx_power
     if ratio < 1.0:
         return math.pow(ratio, 10)
     else:
-        distance = (0.89976) * math.pow(ratio, 7.7095) + 0.111
+        distance = 0.89976 * math.pow(ratio, 7.7095) + 0.111
         return distance
 
 def get_device_type(device):
     if device is None:
         return 'Unknown'
 
+    # Adjust according to your requirements
     device_type_mapping = {
         'phone': 'Smartphone',
         'watch': 'Wearable',
@@ -30,17 +32,20 @@ def get_device_type(device):
 
     return 'Unknown'
 
+
 def get_device_manufacturer(device):
     manufacturer_data = device.metadata.get('manufacturer_data', {})
 
     for key in manufacturer_data:
-        company_name = get_company_name_by_id_with_error_handling(key)
+        # Look up the Bluetooth Company Identifier Codes
+        company_name = get_company_name_by_id(key)
         if company_name:
             return company_name
 
     return 'Unknown'
 
 def get_company_name_by_id(company_id):
+    # Use the Bluetooth SIG API to get the company name by its identifier
     url = f'https://www.bluetooth.com/wp-json/wp/v2/company?per_page=1&search={company_id}'
     response = requests.get(url)
 
@@ -51,25 +56,7 @@ def get_company_name_by_id(company_id):
 
     return None
 
-def get_company_name_by_id_with_error_handling(company_id):
-    try:
-        return get_company_name_by_id(company_id)
-    except Exception as e:
-        print(f"Error getting company name by ID: {e}")
-        return None
-
 async def scan_bluetooth():
-
-    devices = []
-    error_message = None
-
-    try:
-        scanner = BleakScanner()
-    except BleakError as e:
-        print(f"Error: {e}")
-        error_message = str(e)
-        return devices, error_message
-
+    scanner = BleakScanner()
     devices = await scanner.discover()
-    return devices, error_message
-
+    return devices
