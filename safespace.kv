@@ -1,52 +1,101 @@
-#: kivy 2.1.0
-#: import MDApp kivymd.app.MDApp
-#: import MDRaisedButton kivymd.uix.button.MDRaisedButton
-#: import MDTopAppBar kivymd.uix.toolbar.MDTopAppBar
-#: import MDSpinner kivymd.uix.spinner.MDSpinner
-#: import SafeSpaceLayout safespace_layout.SafeSpaceLayout
-#: import MDFlatButton kivymd.uix.button.MDFlatButton
-#: import MDRoundFlatButton kivymd.uix.button.MDRoundFlatButton
-#: include filters.kv
-#: include navigation_drawer.kv
+#:kivy 2.0.0
+#:import Factory kivy.factory.Factory
+#:import MDLabel kivymd.uix.label.MDLabel
+#:import MDRaisedButton kivymd.uix.button.MDRaisedButton
+#:import MDSpinner kivymd.uix.spinner.MDSpinner
 
-SafeSpaceLayout:
-    id: safe_space_layout
+<SafeSpaceLayout>:
     orientation: "vertical"
     spacing: 10
-    
-    MDTopAppBar:
-        title: "Safe Space"
-        md_bg_color: app.theme_cls.primary_color
-        left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
-        elevation: 10
-        right_action_items: [["settings", lambda x: app.show_filter_dialog()]]
+    padding: 10
 
     BoxLayout:
-        orientation: "vertical"
-        padding: "10dp"
+        size_hint_y: None
+        height: "40dp"
 
-        MDLabel:
-            text: "Status: Stopped"
-            id: status_label
-            halign: "center"
-            theme_text_color: "Secondary"
-
-        MDRaisedButton:
-            text: "Start/Stop Scanning"
+        MDIconButton:
+            icon: "play-pause"
             on_release: root.start_stop_scanning()
-            pos_hint: {"center_x": .5}
-            size_hint_x: None
 
         MDLabel:
-            id: error_label
-            size_hint_y: None
-            height: self.texture_size[1] + dp(8)
-            text: ''
-            theme_text_color: "Error"
+            id: status_label
+            text: "Status: Stopped"
             halign: "center"
 
-    MDNavigationLayout:
-        id: nav_layout
+    GridLayout:
+        cols: 2
+        row_force_default: True
+        row_default_height: "40dp"
+        spacing: 10
 
-        CustomNavigationDrawer:
-            id: nav_drawer
+        MDLabel:
+            text: "Device Name:"
+            halign: "right"
+
+        TextInput:
+            id: device_name_input
+            multiline: False
+
+        MDLabel:
+            text: "Device Type:"
+            halign: "right"
+
+        Spinner:
+            id: device_type_spinner
+            text: "All"
+            values: ("All", "Phone", "Computer", "Audio", "Peripheral", "Other")
+
+        MDLabel:
+            text: "Manufacturer:"
+            halign: "right"
+
+        Spinner:
+            id: device_manufacturer_spinner
+            text: "All"
+            values: ("All", "Apple", "Samsung", "Sony", "Other")
+
+        MDLabel:
+            text: "RSSI:"
+            halign: "right"
+
+        MDSlider:
+            id: rssi_slider
+            min: -100
+            max: 0
+            value: -70
+
+        MDLabel:
+            text: "Detection Time:"
+            halign: "right"
+
+        Spinner:
+            id: detection_time_spinner
+            text: "All"
+            values: ("All", "1 min", "5 min", "15 min", "30 min", "60 min")
+
+        MDLabel:
+            text: "Connection Status:"
+            halign: "right"
+
+        Spinner:
+            id: connection_status_spinner
+            text: "All"
+            values: ("All", "Connected", "Disconnected")
+
+        MDLabel:
+            text: "Proximity Zone:"
+            halign: "right"
+
+        Spinner:
+            id: proximity_zone_spinner
+            text: "All"
+            values: ("All", "Immediate", "Near", "Far")
+
+    BoxLayout:
+        size_hint_y: None
+        height: "40dp"
+
+        MDLabel:
+            id: distance_label
+            text: "Distance: -"
+            halign: "center"
